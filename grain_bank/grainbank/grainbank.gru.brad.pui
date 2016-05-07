@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?>
+<!DOCTYPE PRJ SYSTEM "grainbank.gru.brad.dtd">
+<PRJ>
+  <Folder Name="/usr/share/nginx/html/grainbank/ - /usr/share/nginx/html/grainbank/css/"/>
+  <Project_Information>
+    <Working_Time>226133</Working_Time>
+    <Project_Start>27000000280000000E0000001D0000000800000073000000020000000F01000001000000FF7F0000C0C7FFFFFFFFFFFF20D760030000000061</Project_Start>
+  </Project_Information>
+  <Folder Name="/usr/share/nginx/html/grainbank/">
+    <Expand>1</Expand>
+  </Folder>
+  <Active_Settings>
+    <Active_File_Display_Mode>-1</Active_File_Display_Mode>
+  </Active_Settings>
+</PRJ>

@@ -1,0 +1,35 @@
+<html>
+<head></head>
+<body>
+<script type="text/javascript" src="item_data.js"></script>
+<script>
+var items = myOdds[Math.floor(Math.random()*myOdds.length)];
+var item;
+var magic;
+var special;
+var specials;
+var foo = "";
+//document.write("Items: " + items + "<br/>");
+if (items == 0){
+	foo = "So Sorry.";
+}
+for (i=0;i<items;i++){
+	item = myData[Math.floor(Math.random()*myData.length)];
+	magic = myMagic[Math.floor(Math.random()*myMagic.length)];
+	special = myMagic[Math.floor(Math.random()*myMagic.length)];
+	//foo = foo + (i+1) + ". \t" + item + "<br />";
+	specials = "";
+	if (special >= 90){
+	  specials = " <b>special</b> ";
+	}
+	if (magic == 100){
+		foo = foo +  "<b>" + item + " * magic * </b> " + specials + "<br />";
+	}else{
+		foo = foo +  item + specials + "<br />";
+	}
+}
+document.write(foo);
+document.write("<br />" + i + " items");
+</script>
+</body>
+<html>
