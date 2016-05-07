@@ -1,0 +1,144 @@
+<HTML>
+	<HEAD>
+		<SCRIPT>var isomorphicDir="../smartclientRuntime/isomorphic/";</SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Core.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/skins/SmartClient/load_skin.js></SCRIPT>
+	</HEAD>
+	<BODY>
+<SCRIPT>
+	
+isc.HistoryLayout = isc.VLayout.create({
+    parent: this,
+    title: "History",
+    name: "History",
+    initWidget: function(initData){
+        this.Super("initWidget", arguments);
+
+this.balanceDS = isc.DataSource.create({
+    ID: "balanceDS",
+    operationBindings:[{operationType:"fetch", dataProtocol:"postParams"}],
+    dataURL: "balance.php?balance",
+    dataFormat: "json",
+    fields:[
+        {name: "grain_type", primaryKey: true},
+        {name: "balance"},
+       	{name: "lastChange"}
+    ]
+});
+
+this.balanceLG = isc.ListGrid.create({
+    ID: "balanceLG",
+    left: 5, 
+    top: 5,
+    width: 800,
+    height: 300,
+    autoFetchData: true,
+    showAllRecords: true,
+    alternateRecordStyles: true,
+    dataSource: "balanceDS"
+});
+
+this,transactionDS = isc.DataSource.create({
+    ID: "transDS",
+    operationBindings:[{operationType:"fetch", dataProtocol:"postParams"}],
+    dataURL: "transactions.php?transaction",
+    dataFormat: "json",
+    fields:[
+        {name: "grain_type", primaryKey: true},
+        {name: "transactionAmount"},
+       	{name: "orderID"},
+       	{name: "transactionDate"}
+    ]
+});
+
+this.transactionsLG = isc.ListGrid.create({
+    ID: "transLG",
+    left: 5, 
+    top: 5,
+    width: 800,
+    height: 300,
+    autoFetchData: true,
+    showAllRecords: true,
+    alternateRecordStyles: true,
+    dataSource: "transDS"
+});
+
+        // Layout.
+        //
+        /*
+        this.tabLayout = isc.VLayout.create({
+            parent: this,
+            membersMargin: 0,
+            members: [
+                isc.Label.create({
+                    margin: 4,
+                    align: "center",
+                    height: 1,
+                    contents: lang_trans("tabLayout.contents_SiteTirePros", "TirePros Marketing Program Participation"),
+                    baseStyle: "headerItem"
+                }),
+                this.TireProsMarketingProgramsTabSet
+            ]
+        });
+*/
+
+        this.dealerLayout = isc.VLayout.create({
+            parent: this,
+            membersMargin: 0,
+            members: [
+                isc.Label.create({
+                    margin: 4,
+                    align: "center",
+                    height: 1,
+                    contents: lang_trans("dealerLayout.contents", "TirePros Dealer Information"),
+                    baseStyle: "headerItem"
+                }),
+                isc.HLayout.create({
+                    parent: this,
+                    margin: 4,
+                    members: [
+//                        isc.VLayout.create({
+//                            parent: this,
+//                            margin: 4,
+//                            width: "50%",
+//                            members: [this.tireProsDealerDForm]
+//                        }),
+                        isc.VLayout.create({
+                            parent: this,
+                            margin: 4,
+                            width: "50%",
+                            height: "100%",
+                            members: [this.balanceLG, this.transactionsLG]
+                        })
+                    ]
+                })
+            ]
+        });
+/*
+        this.mainTabSet = isc.TabSet.create({
+            parent: this,
+            height: "60%",
+            tabs: [
+                {name: "tabDealer",
+                    title: lang_trans("mainTabSet.tabDealer.contents", "Dealer"),
+                    pane: this.dealerLayout
+                },
+                {name: "tabMarketing",
+                    title: lang_trans("mainTabSet.tabMarketing.contents", "Marketing"),
+                    pane: this.tabLayout
+                }
+            ]
+        });
+*/
+        this.addMember(this.dealerLayout);
+    }
+});
+
+</SCRIPT>
+</BODY>
+</HTML>

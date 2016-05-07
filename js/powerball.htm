@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <script type='text/javascript'>var _sf_startpt=(new Date()).getTime()</script>
+    <!--
+    http://graphics.latimes.com/powerball-simulator/
+    http://visual.ly/when-will-i-win-powerball-interactive-simulation?view=true
+    -->
+    <title>-</title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+    .clr {
+        display: block;
+        clear: both;
+    }
+    #user_number_sets form {
+        margin: 0;
+    }
+    #user_number_sets .user_number_input, #user_number_sets .user_mega_input {
+        float: left;
+        width: 29px;
+        height: 29px;
+        margin: 5px 4px;
+        padding: 2px;
+        display: block;
+        border: none;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 20px;
+        line-height: 35px;
+        font-family: Courier New, Courier, monospace;
+        color: #000000;
+        -webkit-appearance: none;
+        border-radius: 4px;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+
+    }
+    .number {
+        float: left;
+        width: 35px;
+        height: 35px;
+        margin: 5px 4px;
+        padding: 0;
+        display: block;
+        border: none;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 20px;
+        line-height: 35px;
+        font-family: Courier New, Courier, monospace;
+        color: #333;
+        border-radius: 4px;
+    }
+    .winning_number {
+        background: #eee;
+    }
+    .money_title {
+        color: #bbb;
+        text-align: right;
+    }
+    .money_title, .money_amount {
+        display: inline-block;
+        width: 50%;
+    }
+    .money_amount {
+        text-indent: 10px;
+    }
+    #money_totals {
+        margin: 40px 0 0 0;
+    }
+    #money_totals h2 {
+        margin: 0 0 10px;
+    }
+    #play_button {
+        margin: 10px 1px 30px;
+        cursor: pointer;
+    }
+    #game_errors p {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        color: #F47E70;
+    }
+    .modal-footer .sharebuttons {
+        text-align: center;
+        margin: 0 auto;
+    }
+    .odds_table {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        margin: 0 0 40px;
+    }
+    .odds_table td {
+        width: 120px;
+        text-align: right;
+    }
+    .odds_table th {
+        text-align: right;
+    }
+    .odds_table thead tr th:nth-child(1), .odds_table tbody tr td:nth-child(1) {
+        text-align: left;
+    }
+    .odds_table .win_ball, .odds_table .win_powerball {
+        display: inline-block;
+        height: 12px;
+        width: 12px;
+        background: #ccc;
+    }
+    .odds_table .win_ball {
+        border-radius: 2px;
+    }
+    .odds_table .win_powerball {
+        border-radius: 12px;
+    }
+    .odds_table .win_powerball {
+        background: #aaa;
+        border-radius: 16px;
+    }
+    #user_number_sets .user_number_input:focus, #user_number_sets .user_mega_input:focus {
+    outline-width: 0;
+    border: 1px solid #bbb;
+    background: #fff;
+    }
+    #user_number_sets .user_number_input:hover, #user_number_sets .user_mega_input:hover {
+        background: #fff;
+        border: 1px solid #bbb;
+    }
+    #user_number_sets .user_example {
+        color: #cccccc;
+    }
+    .negative_balance {
+        color: #D10000;
+    }
+    #user_number_sets .user_mega_input {
+        background: #ccc;
+        border-radius: 30px;
+        border: 1px solid #ccc;
+    }
+    #user_number_sets .user_initial {
+        border: 1px solid #bbb;
+        background: #fff;
+    }
+    #user_number_sets .user_selected {
+        border: 1px solid transparent;
+        background: #ffffff;
+        color: #000000;
+        box-shadow: none;
+    }
+    #user_number_sets .mega_selected {
+        background: #ccc;
+    }
+    #quick_pick_button {
+        cursor: pointer;
+    }
+    .add_number_row {
+        line-height: 43px;
+        cursor: pointer;
+        font-size:14px;
+        color:#999999;
+    }
+    .add_number_row, .quick_pick, .play_button {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    .winning_mega_number {
+        border-radius: 30px;
+        background: #ccc;
+    }
+    #how_much_title {
+        margin: 20px 0 0 0;
+    }
+    #other_amount, #custom_play {
+        margin: 0 10px 0 0;
+    }
+    .quick_pick {
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        text-transform: uppercase;
+        display: inline-block;
+        height: 29px;
+        line-height: 29px;
+        margin: 6px 0;
+    }
+    .play_button {
+        cursor: pointer;
+    }
+    #user_number_sets .matching_number, #winning_numbers .matching_number {
+        background: #9DE7BA;
+    }
+    #user_number_sets .number_error {
+        border: 1px solid #F47E70;
+        background: rgb(247, 219, 215);
+    }
+    #user_number_sets .matched_hover {
+        border: 1px solid #000000;
+    }
+    @media (max-width: 767px) {
+        #money_totals {
+            margin: 0 0 30px;
+        }
+        .odds_table .win_ball, .odds_table .win_powerball {
+            height: 10px;
+            width: 10px;
+        }
+        .odds_table {
+            width: 100%;
+        }
+        .odds_table th, .odds_table td {
+            font-size: 14px;
+            width: 33%;
+        }
+    }
+    @media (max-width: 320px) {
+        .banner-ad {
+            margin-left: -10px;
+        }
+    }
+</style>
+<!-- JAVASCRIPT -->
+<script type="text/javascript" src="http://localhost/jquery.min.js"></script>
+<script type="text/javascript" src="http://localhost/bootstrap.min.js"></script>
+<script src="http://localhost/underscore-1.8.3-min.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://localhost/socialize.js?apiKey=2_COh26GgfZDptreu0iQ9aknzT_Ig861qYxOHZVxizrZMTn81vygTB-ptN33wgCtrj"></script>
+<script type="text/javascript" src="http://localhost/ngux-tophat-0.4.3.min.js"></script>
+<script type="text/javascript" src="http://localhost/ngux-ads-2.4.1.min.js"></script>
+<script src="http://localhost/d3.v3.min.js"></script>
+</head>
+<body>
+    <div class="row">
+        <div class="span8"></div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <h3>Pick your numbers</h3>
+            <div id="user_number_sets">
+                <div id="user_numbers0" class="user_number_group">
+                    <form>
+                        <input type="text" name="first_number" class="user_number_input user_initial lotto_number" value="" onclick="this.select();" size="2" pattern="\d*">
+                        <input type="text" name="second_number" class="user_number_input user_initial lotto_number" value="" onclick="this.select();" size="2" pattern="\d*">
+                        <input type="text" name="third_number" class="user_number_input user_initial lotto_number" value="" onclick="this.select();" size="2" pattern="\d*">
+                        <input type="text" name="fourth_number" class="user_number_input user_initial lotto_number" value="" onclick="this.select();" size="2" pattern="\d*">
+                        <input type="text" name="fifth_number" class="user_number_input user_initial lotto_number" value="" onclick="this.select();" size="2" pattern="\d*">
+                        <input type="text" name="mega_number" class="user_mega_input user_initial lotto_number" value="" onclick="this.select();" size="2" pattern="\d*">
+                    </form>
+
+                    <a class="quick_pick" id="quick_pick0" title="Quick pick" onclick="quickPick(0);">Quick pick</a>
+
+                    <div class="clr"></div>
+                </div>
+            </div>
+            <div id="game_errors"></div>
+            <div id="winning_numbers">
+                <h3>Winning Numbers</h3>
+                <div class="winning_number number lotto_number"></div>
+                <div class="winning_number number lotto_number"></div>
+                <div class="winning_number number lotto_number"></div>
+                <div class="winning_number number lotto_number"></div>
+                <div class="winning_number number lotto_number"></div>
+                <div class="winning_mega_number number mega_number lotto_number"></div>
+                <div class="clr"></div>
+            </div>
+            <button class="btn" id="play_button" onclick="play(100);">Play!</button>
+        </div>
+        <div class="span6">
+            <div id="money_totals">
+                <h3><span class="money_title">Spent</span><span id="spent_total" class="money_amount">$0</span></h3>
+                <h3><span class="money_title">Won</span><span id="won_total" class="money_amount">$0</span></h3>
+                <h3><span class="money_title">Win/loss</span><span id="win_loss_total" class="money_amount">$0</span></h3>
+                <h3><span class="money_title">Balance</span><span id="balance_total" class="money_amount">$1000</span></h3>
+            </div>
+        </div>
+        <div class="span8">
+            <h3>How does this work?</h3>
+            <p>This simulator pits your numbers against randomly generated win numbers.  While the large jackpot prize may be tempting, it's extremely hard to have that one ticket in 292,201,338.</p>
+            <table class="odds_table">
+                <thead>
+                    <tr>
+                        <th>Match</th>
+                        <th class="odds_head">Odds (1 in...)</th>
+                        <th class="prize_head">Prize</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                            <span class="win_powerball"></span>
+                        </td>
+                        <td class="odds">292,201,338</td>
+                        <td class="prize">Jackpot</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                        </td>
+                        <td class="odds">11,688,054</td>
+                        <td class="prize">$1,000,000</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                            <span class="win_powerball"></span>
+                        </td>
+                        <td class="odds">913,129</td>
+                        <td class="prize">50,000</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                        </td>
+                        <td class="odds">36,525</td>
+                        <td class="prize">100</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                            <span class="win_powerball"></span>
+                        </td>
+                        <td class="odds">14,494</td>
+                        <td class="prize">100</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                        </td>
+                        <td class="odds">580</td>
+                        <td class="prize">7</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="win_ball"></span>
+                            <span class="win_ball"></span>
+                            <span class="win_powerball"></span>
+                        </td>
+                        <td class="odds">701</td>
+                        <td class="prize">7</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="win_ball"></span>
+                            <span class="win_powerball"></span>
+                        </td>
+                        <td class="odds">92</td>
+                        <td class="prize">4</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="win_powerball"></span>
+                        </td>
+                        <td class="odds">38</td>
+                        <td class="prize">4</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    var timer;
+    var initAmt = 1000;
+    var playCount = 0,
+        spentTotal = 0,
+        winTotal = 0,
+        winLossTotal = 0,
+        balanceTotal = initAmt;
+
+    // Game info
+    var games = {
+        pball: { max: 69, megaMax: 26 },
+        mmillions: { max: 75, megaMax: 15 },
+        slottoplus: { max: 47, megaMax: 27 }
+    }
+
+    var onChange = function(option) {
+        // empty out any selections
+        d3.selectAll(".user_number_input").each(function () {
+        if (!d3.select(this).classed("user_example")) {
+            this.value = "";
+            d3.select(this)
+            .classed("user_initial",true)
+            .classed("matching_number",false)
+            .classed("user_selected",false);
+        }
+        });
+
+        d3.selectAll(".user_mega_input").each(function () {
+            this.value = "";
+            d3.select(this).classed("user_initial",true).classed("mega_selected",false).classed("matching_number",false);
+        });
+    }
+
+    function getWinning(max) {
+        // Create possible user numbers array
+        var possUserNumbs = [];
+        for (var i=1; i<(max+1); i++) {
+            possUserNumbs.push(i);
+        }
+        // Quick pick winning user numbers array
+        var userWinningNumbs = [];
+        for (var j = 0; j<5; j++) {
+            userWinningNumbs.push(getRandomWinningNumbers());
+        }
+        // Gets random numbers and removes them after use
+        function getRandomWinningNumbers() {
+            var randomIndex = Math.floor(Math.random()*possUserNumbs.length);
+            return possUserNumbs.splice(randomIndex, 1)[0];
+        }
+        // Reorder from smallest to largest
+        userWinningNumbs.sort(function(a,b) {return a-b; });
+        return userWinningNumbs;
+    }
+
+    function getMega(megaMax) {
+        // Create possible user mega numbers array
+        var possMegaUserNumbs = [];
+        for (var i=1; i<(megaMax+1); i++) {
+            possMegaUserNumbs.push(i);
+        }
+
+        var randomIndex = Math.floor(Math.random()*possMegaUserNumbs.length);
+        return possMegaUserNumbs.splice(randomIndex, 1)[0];
+    }
+
+    /*----------------------------------------------
+        ERROR CHECKING Check that user's numbers are good
+    ----------------------------------------------*/
+    function checkWinningNumbers() {
+        var min = 1,
+            max = games.pball.max;
+
+        // get winning numbers
+        var numbers = [];
+        $(".user_number_input").each(function(){
+            numbers.push($(this).attr("value"));
+            // reset any old errors
+            if ($(this).hasClass("number_error")) {
+                $(this).removeClass("number_error");
+            }
+            if ($(this).hasClass("matching_number")) {
+                $(this).removeClass("matching_number");
+            }
+            $(".error_message").remove();
+
+        });
+
+        // Create boolean object
+        var isError = false;
+
+        // // Create holding div
+        var divId = "#user_numbers0";
+
+        // Loop through user's numbers to check them
+        for (var i = 0; i < numbers.length; i++) {
+            if (isNaN(numbers[i])) {
+                // If a number is not a number
+                isError = true;
+                $("#game_errors").append("<p class=\"error_message\">Please use numbers.</p>");
+                $(divId).children("form").children(".user_number_input:eq("+i+")").addClass("number_error");
+            } else if (numbers[i] < min || numbers[i] > max) {
+                // If numbers are outside bounds of game
+                isError = true;
+                $("#game_errors").append("<p class=\"error_message\">Please pick a number between " + min + " to " + max + ".</p>");
+                $(divId).children("form").children(".user_number_input:eq("+i+")").addClass("number_error");
+            } else if (i != numbers.indexOf(numbers[i])) {
+                // Check for duplicate numbers
+                isError = true;
+                $("#game_errors").append("<p class=\"error_message\">Numbers can only be used once!</p>");
+                $(divId).children("form").children(".user_number_input:eq("+i+")").addClass("number_error");
+            } else if (Math.floor(numbers[i]) != numbers[i]) {
+                // If not an integer
+                isError = true;
+                $("#game_errors").append("<p class=\"error_message\">Please use whole numbers.</p>");
+                $(divId).children("form").children(".user_number_input:eq("+i+")").addClass("number_error");
+            }
+        }
+
+        // Return any errors
+        if (isError) {
+            console.log("error!");
+        }
+        return isError;
+    }
+
+    function checkMegaNumbers() {
+        var megaMin = 1,
+            megaMax = games.pball.megaMax;
+
+        var megaNumber = "";
+        $(".user_mega_input").each(function(){
+            megaNumber = $(this).attr("value");
+            // reset any old errors
+            if ($(this).hasClass("number_error")) {
+                $(this).removeClass("number_error");
+            }
+            if ($(this).hasClass("matching_number")) {
+                $(this).removeClass("matching_number");
+            }
+        });
+
+        // Create boolean object
+        var isError = false;
+
+        // Create holding div
+        var divId = "#user_numbers0";
+
+        // Check Mega number
+        if (isNaN(megaNumber)) {
+            // If a number is not a number
+            isError = true;
+            $("#game_errors").append("<p class=\"error_message\">Please use numbers.</p>");
+            $(divId).children("form").children(".user_mega_input").addClass("number_error");
+        } else if (megaNumber < megaMin || megaNumber > megaMax) {
+            // If numbers are outside bounds of game
+            isError = true;
+            $("#game_errors").append("<p class=\"error_message\">Please pick a Powerball number between " + megaMin + " and " + megaMax + ".</p>");
+            $(divId).children("form").children(".user_mega_input").addClass("number_error");
+        } else if (Math.floor(megaNumber) != megaNumber) {
+            // If not an integer
+            isError = true;
+            $("#game_errors").append("<p class=\"error_message\">Please use whole numbers.</p>");
+            $(divId).children("form").children(".user_mega_input").addClass("number_error");
+        }
+        // Return any errors
+        return isError;
+    }
+    /* END ERROR CHECKING */
+
+    function quickPick(rowNum) {
+
+        var game = 'pball';
+
+        // Check that game is selected
+        if (game.length > 0) {
+
+            // Get winning numbers
+            var userNumbers = getWinning(games[game].max);
+            var userMega = getMega(games[game].megaMax);
+
+            // shove numbers into input boxes
+            d3.selectAll("#user_numbers" + rowNum + " form .user_number_input").each( function (d,i) {
+                this.value = userNumbers[i];
+                d3.select(this)
+                    .attr("value","")
+                    .classed("user_example",false)
+                    .classed("user_initial",false)
+                    .classed("matching_number",false)
+                    .classed("number_error",false)
+                    .classed("user_selected",true);
+            });
+
+            // Get mega number
+            d3.select("#user_numbers" + rowNum + " form .user_mega_input")
+                .attr("value",function () {
+                    this.value = userMega;
+                    return "";
+                })
+                .classed("user_initial",false)
+                .classed("number_error",false)
+                .classed("matching_number",false)
+                .classed("mega_selected",true);
+
+        } else { // no game selected error
+            d3.select("#game_picker").style("border","2px solid #F47E70");
+        }
+
+    } // quickPick();
+
+    function playOnce() {
+        // remove any matching numbers
+        $(".lotto_number").removeClass("matching_number");
+        // check game
+        var game = 'pball';
+        // error checking
+        var errors = false;
+        var winError = checkWinningNumbers();
+        var megError = checkMegaNumbers();
+        if (winError || megError) { errors = true; }
+        // stop if errors or 0 balance
+        if (!errors && (balanceTotal-2) >= 0) {
+            playCount++; // increment playcount
+            // Get winning numbers
+            var winningNumbers = getWinning(games[game].max),
+                winningMega = getMega(games[game].megaMax);
+            // shove numbers into input boxes
+            d3.selectAll(".winning_number").each( function (d,i) {
+                d3.select(this).text(winningNumbers[i]);
+            });
+            // Get mega number
+            d3.select(".winning_mega_number").text(winningMega);
+            // check for winning number matches
+            var winNumLen = 0,
+                megaMatch = true;
+            // loop through user's numbers
+            $(".user_number_input").each(function(){
+                var wNumber = +$(this).attr("value");
+                if (winningNumbers.indexOf(wNumber) != -1) {
+                    winNumLen++;
+                    $(this).addClass("matching_number");
+                    // highlight matching numbers in win area
+                    $(".winning_number").each(function(){
+                        if (+$(this).text() === wNumber) {
+                            $(this).addClass("matching_number");
+                        }
+                    });
+                }
+            });
+            // check user's powerball against winning powerball
+            var userMega;
+            $(".user_mega_input").each(function(){
+                userMega = +$(this).attr("value");
+            });
+            megaMatch = (userMega === winningMega) ? true : false;
+            if (megaMatch) {
+                $(".user_mega_input").addClass("matching_number");
+                $(".winning_mega_number").addClass("matching_number");
+            }
+            var prizeNoMega = [
+                0, // no numbers
+                0, // one number
+                0, // two numbers
+                7, // three numbers
+                100, // four numbers
+                1000000 // five numbers
+            ];
+            var prizeMega = [
+                4, // powerball number only
+                4, // powerball and one number
+                7, // powerball and two numbers
+                100, // powerball and three numbers
+                50000, // powerball and four numbers
+                1300000000 // powerball and five numbers
+            ];
+            // figure out prize
+            var prize = 0;
+            if (megaMatch) {
+                prize = prizeMega[winNumLen];
+
+            } else if (winNumLen > 2) {
+                prize = prizeNoMega[winNumLen];
+            }
+            // update the totals
+            spentTotal = spentTotal+2;
+            winTotal = winTotal+prize;
+            winLossTotal = winTotal - spentTotal;
+            balanceTotal = balanceTotal-2+prize;
+            $("#spent_total").text("$"+commafy(spentTotal));
+            $("#won_total").text("$"+commafy(winTotal));
+            $("#win_loss_total").text("$"+commafy(winLossTotal));
+            $("#balance_total").text("$"+commafy(balanceTotal));
+            // class balance for negatives
+            if (balanceTotal < 0) {
+                $("#balance_total").addClass("negative_balance");
+            } else {
+                $("#balance_total").removeClass("negative_balance");
+            }
+            if (winLossTotal < 0) {
+                $("#win_loss_total").addClass("negative_balance");
+            } else {
+                $("#win_loss_total").removeClass("negative_balance");
+            }
+            if (prize > 0) {
+                console.log("playCount: " + playCount + "\tbalance: " + balanceTotal + "\twinNumLen: " + winNumLen + "\tprize: " + prize);
+            }
+            // stop if large prize
+            if (prize > 1000000) {
+                return false;
+            } else {
+                return true;
+            }
+        } else if (errors) {
+            clearTimeout(timer);
+            return true;
+        }
+    } // playOnce();
+
+    /* add commas to numbers*/
+    function commafy(num) {
+        var s = String(num).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return s;
+    }
+
+    function play(speed) {
+        (function(){
+            if (balanceTotal-2>=0) {
+                var playing = playOnce();
+                timer = setTimeout(arguments.callee, speed);
+                if (!playing) {
+                    clearTimeout(timer);
+                    // update text
+                    $(".modal-title").text("You did it!");
+                    $("#again_body_text").text("You should take your money and run! You had to spend $" + commafy(spentTotal) + " to get to this point and play " + commafy(playCount) + " times. You could keep playing too though...");
+                    $(".modal-body button").remove();
+                    $('#myModal').modal('toggle'); // show modal
+                }
+            } else {
+                clearTimeout(timer);
+                // update message total win loss
+                if (winLossTotal < 0) {
+                    $("#win_loss_text").text("lost");
+                    $("#win_loss_total_again").text("$"+commafy(winLossTotal*-1));
+                    $("#win_loss_total_again").addClass("negative_balance");
+
+                } else {
+                    $("#win_loss_text").text("won");
+                    $("#win_loss_total_again").text("$"+commafy(winLossTotal));
+                    $("#win_loss_total_again").removeClass("negative_balance");
+                }
+
+                // $("#win_loss_total_again").text($("#win_loss_total").text());
+                $("#play_count_again").text(commafy(playCount));
+                $('#myModal').modal('toggle');
+                return;
+            }
+        })();
+    }
+
+    function playAgain(addedFunds) {
+        console.log('playAgain');
+        $("#myModal").modal('hide');
+        $('body').removeClass('modal-open');
+        $(".modal-title").text("Again?");
+        $('.modal-backdrop').remove();
+        addedFunds = parseInt(addedFunds);
+        balanceTotal = balanceTotal + addedFunds;
+        $("#balance_total").text("$"+balanceTotal);
+        if (addedFunds > 1000) {
+            play(100);
+        } else if (addedFunds > 500) {
+            play(10);
+        } else {
+            play(1);
+        }
+    }
+
+    function otherAmount(salary) {
+        // some stuff here
+        if (salary) {
+            $(".custom_amount").html("<h2 id='how_much_title'>How much?</h2><input type='text' id='other_amount'><button type='button' class='btn' onclick='customPlay();' id='custom_play'>Play!</button>");
+        } else {
+        }
+    }
+
+    function customPlay() {
+        // replace modal text
+        $("#other_amount_btn").text("Other amount");
+        // get custom number
+        // remove commas
+        // check for errors
+        var customAmount = $("#other_amount").attr("value");
+        customAmount = customAmount.replace(/\D/g,'');
+        playAgain(customAmount);
+    }
+</script>
+</div>
+<footer><div id="footer-container"></div></footer>
+</body>
+</html>

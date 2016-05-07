@@ -1,0 +1,40 @@
+<HTML>
+	<HEAD>
+		<SCRIPT>var isomorphicDir="../smartclientRuntime/isomorphic/";</SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Core.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/skins/SmartClient/load_skin.js></SCRIPT>
+	</HEAD>
+	<BODY>
+<SCRIPT>
+isc.DataSource.create({
+    ID: "myDataSource",
+    operationBindings:[{operationType:"fetch", dataProtocol:"postParams"}],
+    dataURL: "transactions.php?transaction",
+    dataFormat: "json",
+    fields:[
+        	{name: "grain_type", primaryKey: true},
+        	{name: "transactionAmount"},
+       	{name: "orderID"},
+       	{name: "transactionDate"}
+    ]
+});
+isc.ListGrid.create({
+    ID: "myListGrid",
+    left: 5, 
+    top: 5,
+    width: 800,
+    height: 300,
+    autoFetchData: true,
+    showAllRecords: true,
+    alternateRecordStyles: true,
+    dataSource: "myDataSource"
+});
+
+</SCRIPT>
+</BODY>
+</HTML>

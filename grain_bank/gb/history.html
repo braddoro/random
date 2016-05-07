@@ -1,0 +1,307 @@
+<HTML>
+	<HEAD>
+		<SCRIPT>var isomorphicDir="../smartclientRuntime/isomorphic/";</SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Core.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/skins/SmartClient/load_skin.js></SCRIPT>
+	</HEAD>
+	<BODY>
+<SCRIPT>
+isc.HistoryLayout = isc.VLayout.create({
+	parent: this,
+	title: "History",
+	name: "History",
+	initWidget: function(initData){
+		this.Super("initWidget", arguments);
+
+		this.grainDS = isc.DataSource.create({
+			ID: "grainDS",
+			operationBindings:[{operationType:"fetch", dataProtocol:"postParams"}],
+			dataURL: "grain.php?om=grain",
+			dataFormat: "json",
+			fields:[
+				{name: "grainID", primaryKey: true, detail: true},
+				{name: "grain_type"}
+		    ],
+		    handleError: function(response, request) {
+		        console.log(response);
+		        return true;
+		    }
+		});
+
+		this.userDS = isc.DataSource.create({
+			ID: "userDS",
+			operationBindings:[{operationType:"fetch", dataProtocol:"postParams"}],
+			dataURL: "grain.php?om=user",
+			dataFormat: "json",
+			fields:[
+				{name: "userID", primaryKey: true, detail: true},
+				{name: "userName"}
+		    ],
+		    handleError: function(response, request) {
+		        console.log(response);
+		        return true;
+		    }
+		});
+
+		this.balanceDS = isc.DataSource.create({
+			ID: "balanceDS",
+			operationBindings:[{operationType:"fetch", dataProtocol:"postParams"}],
+			dataURL: "grain.php?om=balance",
+			dataFormat: "json",
+			fields:[
+				{name: "grain_type", primaryKey: true},
+				{name: "balance"},
+				{name: "lastChange"}
+			],
+		    handleError: function(response, request) {
+		        console.log(response);
+		        return true;
+		    }
+		});
+
+		this.transactionDS = isc.DataSource.create({
+			ID: "transactionDS",
+			operationBindings:[{operationType:"fetch", dataProtocol:"postParams"}],
+			dataURL: "grain.php?om=transaction",
+			dataFormat: "json",
+			fields:[
+				{name: "grain_type", primaryKey: true},
+				{name: "transactionAmount"},
+				{name: "orderID"},
+				{name: "transactionDate"}
+			],
+		    handleError: function(response, request) {
+		        console.log(response);
+		        return true;
+		    }
+		});
+
+		this.addTransDS = isc.DataSource.create({
+			ID: "addTransDS",
+			operationBindings:[{operationType:"add", dataProtocol:"postParams"}],
+			dataURL: "grain.php?om=addTran",
+			dataFormat: "json",
+			fields:[
+				{name: "TRANSACTION_ID", primaryKey: true},
+				{name: "GRAIN_ID"},
+				{name: "USER_ID"},
+				{name: "AMOUNT"},
+				{name: "ORDER_ID"}
+			],
+		    handleError: function(response, request) {
+		        console.log(response);
+		        return true;
+		    }
+		});
+
+		this.userLG = isc.ListGrid.create({
+		    parent: this,
+			ID: "userLG",
+			left: 5,
+			top: 5,
+			width: 125,
+			height: 625,
+			autoFetchData: true,
+			showAllRecords: true,
+			showFilterEditor: true,
+			alternateRecordStyles: true,
+			dataSource: this.userDS,
+			rowClick: function(record, recordNum, fieldNum, keyboardGenerated){
+			    this.parent.balanceLG.fetchData({USER_ID: record.userID});
+			    this.parent.transactionsLG.fetchData({USER_ID: record.userID});
+		    },
+		    dataArrived: function(startRow, endRow){
+                this.selectSingleRecord(startRow);
+                this.recordClick(this, startRow, startRow);
+		    }
+		});
+
+		this.balanceLG = isc.ListGrid.create({
+		    parent: this,
+			ID: "balanceLG",
+			left: 5,
+			top: 5,
+			width: 700,
+			height: 200,
+			autoFetchData: true,
+			showAllRecords: true,
+			alternateRecordStyles: true,
+			dataSource: this.balanceDS,
+            fetchData: function(criteria, callback, requestProperties){
+                return this.Super("fetchData", [criteria, callback, requestProperties]);
+            }
+		});
+
+		this.transactionsLG = isc.ListGrid.create({
+		    parent: this,
+			ID: "transactionsLG",
+			left: 5,
+			top: 5,
+			width: 700,
+			height: 400,
+			autoFetchData: true,
+			showAllRecords: true,
+			alternateRecordStyles: true,
+			dataSource: this.transactionDS,
+            fetchData: function(criteria, callback, requestProperties){
+                return this.Super("fetchData", [criteria, callback, requestProperties]);
+            }
+		});
+
+		this.inputDForm = isc.DynamicForm.create({
+		    parent: this,
+		    name: "inputDForm",
+		    margin: 4,
+		    numCols: 2,
+		    colWidths: ["1%", "*", "1%", "*"],
+		    wrapItemTitles: false,
+			dataSource: this.addTransDS,
+		    fields: [
+		        {name: "USER_ID",
+		            title: 'User',
+		            editorType: "SelectItem",
+					optionDataSource: this.userDS,
+                    displayField: "userName",
+                    valueField: "userID"
+		        },
+		        {name: "GRAIN_TYPE",
+		            title: 'Grain Type',
+					editorType: "SelectItem",
+					optionDataSource: this.grainDS,
+                    displayField: "grain_type",
+                    valueField: "grainID"
+		        },
+		        {name: "AMOUNT",
+		            title: 'Amount',
+		            editorType: "TextItem",
+					validators:[{type:"isInteger"}]
+		        },
+		        {name: "ORDER_ID",
+		            title: 'Order ID',
+		            editorType: "TextItem",
+					validators:[{type:"isInteger"}]
+		        }
+		    ]
+		});
+
+		this.saveButton = isc.IButton.create({
+		    parent: this,
+		    title: 'Add',
+		    autoFit: true,
+		    click: function(){
+				this.parent.inputDForm.saveData({target: this, methodName: "myCallback"});
+				// var data = isc.addProperties({}, this.parent.inputDForm.getValues(), {OPERATION_TYPE: 'add'});
+				// //var data = this.parent.inputDForm.getValues();
+				// isc.RPCManager.sendRequest({
+				// 	params: data,
+				// 	callback: {target: this, methodName: "myCallback"},
+				// 	actionURL: "grain.php?om=addTran",
+				// 	showPrompt: true
+				// });
+			},
+
+			myCallback: function(RPCresponse) {
+				console.log(RPCresponse);
+				var id = RPCresponse.data.userID;
+				if(id >= 0) {
+					this.parent.userLG.fetchData({USER_ID: id});
+					this.parent.balanceLG.fetchData({USER_ID: id});
+			    	this.parent.transactionsLG.fetchData({USER_ID: id});
+				}
+			}
+		});
+
+		this.cancelButton = isc.IButton.create({
+		    parent: this,
+		    title: 'Cancel',
+		    autoFit: true,
+		    click: function(){
+		        this.parent.inputDForm.removeData();
+		    }
+		});
+
+		this.HistoryLayout = isc.VLayout.create({
+			parent: this,
+			membersMargin: 0,
+			members: [
+				isc.Label.create({
+					margin: 4,
+					align: "center",
+					height: 1,
+					width: 700,
+					contents: "<bold><h2>Grain Bank</h2></bold>",
+					baseStyle: "headerItem"
+				}),
+				isc.HLayout.create({
+					parent: this,
+					margin: 4,
+					members: [
+						isc.VLayout.create({
+							parent: this,
+							margin: 4,
+							width: "50%",
+							height: "100%",
+							members: [
+    						isc.Label.create({
+    							margin: 4,
+    							align: "center",
+    							height: 1,
+    							width: 100,
+    							contents: "<br /> ",
+    							baseStyle: "headerItem"
+    						}),
+    					    this.userLG
+    					 ]}),
+						isc.VLayout.create({
+							parent: this,
+							margin: 4,
+							width: "50%",
+							height: "100%",
+							members: [
+								isc.Label.create({
+									margin: 4,
+									align: "left",
+									height: 1,
+									width: 700,
+									contents: "Balance",
+									baseStyle: "headerItem"
+								}),
+								this.balanceLG,
+									isc.Label.create({
+									margin: 4,
+									align: "left",
+									height: 1,
+									width: 700,
+									contents: "Transactions",
+									baseStyle: "headerItem"
+								}),
+								this.transactionsLG,
+									isc.Label.create({
+									margin: 4,
+									align: "left",
+									height: 1,
+									width: 700,
+									contents: "New Transaction",
+									baseStyle: "headerItem"
+								}),
+								this.inputDForm,
+								this.saveButton,
+								this.cancelButton
+								]
+						})
+					]
+				})
+			]
+		});
+
+        this.addMember(this.HistoryLayout);
+    }
+});
+</SCRIPT>
+</BODY>
+</HTML>

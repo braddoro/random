@@ -1,0 +1,125 @@
+<!----------------------------------------------------------------------------------------
+Name............: FormFromTable.cfm
+Purpose.........: 
+
+Revision History -------------------------------------------------------------------------
+
+Date		Revised By		Modification
+----------	------------	--------------------------------------------------
+10/29/2003	Brad Hughes		Created.
+----------------------------------------------------------------------------------------->
+<cfparam name="Edit" type="numeric" default=0>
+<cfparam name="str_SQL" type="String" default="">
+<cfparam name="str_Output" type="String" default="">
+<!--- Hardcoded here ------------------------------- V --->
+<cfparam name="str_TableName" type="String" default="cfg_HomeTypes">
+<html>
+<head><title>Form From Table</title>
+<h3>Form From Table</h3>
+</head>
+<body>
+<br>
+<!--- Display the grid. --->
+<cfquery name="Query1" datasource="CommonTables">select * from #str_TableName#</cfquery>
+<cfoutput>
+<table border="1">
+	<tr>
+	<cfloop list="#Query1.columnList#" index="columnName" delimiters=",">
+	<th>#columnName#</th>
+	</cfloop>
+	</tr>
+	<cfloop from="1" to="#Query1.recordCount#" index="row">
+		<tr>
+		<cfloop from="1" to="#ListLen(Query1.columnlist)#" index="column">
+			<td>
+				<!--- Hardcoded here --------------------------------------------- V --->
+				<a href='FormFromTable.cfm?ID=#Query1[ListGetAt(Query1.columnList, 4)][row]#&Edit=1'>#Query1[ListGetAt(Query1.columnList, column)][row]#&nbsp;</a>
+			</td>
+		</cfloop>
+		</tr>
+	</cfloop>
+</table>
+</cfoutput>
+<br>
+
+<!--- Debug code, look at the field attributes of the table in question trying to figure out how to get the data type and field size. 
+<cfquery name="Query1" datasource="CommonTables">select rtrim(sysobjects.name) as 'TableName', rtrim(syscolumns.name) as 'ColumnName', rtrim(systypes.name) as 'DataType', systypes.type as 'PhysicalType', systypes.length as 'FieldLength', systypes.xprec as 'Precision', systypes.xscale as 'Scale' from sysobjects inner join syscolumns on syscolumns.id = sysobjects.id inner join systypes on systypes.xtype = syscolumns.xtype where sysobjects.name = '#str_TableName#'</cfquery>
+<table border="1">
+	<tr>
+	<cfloop list="#Query1.columnList#" index="columnName" delimiters=",">
+	<th><cfoutput>#columnName#</cfoutput></th>
+	</cfloop>
+	</tr>
+	<cfloop from="1" to="#Query1.recordCount#" index="row">
+		<tr>
+		<cfloop from="1" to="#ListLen(Query1.columnlist)#" index="column">
+			<td>
+				<cfoutput>#Query1[ListGetAt(Query1.columnList, column)][row]#</cfoutput>&nbsp;
+			</td>
+		</cfloop>
+		</tr>
+	</cfloop>
+</table>
+<br>
+--->
+
+<!--- Display the edit screen. --->
+<cfif #Edit# IS 1 OR #Edit# IS 2>
+	<!--- Hardcoded here ----------------------------------------------------------------V --->
+	<cfquery name="Query1" datasource="CommonTables">select * from #str_TableName# Where HomeTypeID = #ID#</cfquery>
+	<cfquery name="Query2" datasource="CommonTables">select rtrim(sysobjects.name) as 'TableName', rtrim(syscolumns.name) as 'ColumnName', rtrim(systypes.name) as 'DataType', systypes.type as 'PhysicalType', syscolumns.length as 'FieldLength', systypes.xprec as 'Precision', systypes.xscale as 'Scale', * from sysobjects inner join syscolumns on syscolumns.id = sysobjects.id inner join systypes on systypes.xtype = syscolumns.xtype where sysobjects.name = '#str_TableName#'</cfquery>
+	<form action='FormFromTable.cfm' method='post' name='Input' id='Input'>	
+		<input type='hidden' name='Edit' id='Edit' value='2'>
+		<input type='hidden' name='ID' id='ID' value='<cfoutput>#ID#</cfoutput>'>
+		<table border='1'>
+		<cfloop from="1" to="#Query1.recordCount#" index="row">
+			<cfloop from="1" to="#ListLen(Query1.columnlist)#" index="column">
+				<tr>
+				<td>
+					<cfoutput>#ListGetAt(Query1.columnList,column)#</cfoutput>
+				</td>
+				<td>
+					<cfloop query="Query2">
+						<cfif ucase(ColumnName) EQ ucase(ListGetAt(Query1.columnList,column))> 
+							<!--- Get the length of this field. --->
+							<cfif listFind("35,39,47", PHYSICALTYPE) EQ 0>
+								<cfoutput><input type='text' name='#ListGetAt(Query1.columnList,column)#' id='#ListGetAt(Query1.columnList,column)#' value='#Query1[ListGetAt(Query1.columnList, column)][row]#' size='10'></cfoutput>								
+							<cfelse>
+								<input type='text' name='<cfoutput>#ListGetAt(Query1.columnList,column)#</cfoutput>' id='<cfoutput>#ListGetAt(Query1.columnList,column)#</cfoutput>' value='<cfoutput>#Query1[ListGetAt(Query1.columnList, column)][row]#</cfoutput>' size='<cfoutput>#FIELDLENGTH#</cfoutput>'>
+							</cfif>
+						</cfif>
+					</cfloop>
+				</td>
+				</tr>
+			</cfloop>
+		</cfloop>
+		<tr>
+		<td>&nbsp;</td>
+		<td><input type='submit' name='Submit' id='Submit' value='Submit'></td>
+		</tr>	
+		</table>
+	</form>
+	<br>
+</cfif>
+
+<!--- Build the SQL to update the table from the form fields. --->
+<cfif Edit IS 2>
+	<cfquery name="Query1" datasource="CommonTables">select rtrim(sysobjects.name) as 'TableName', rtrim(syscolumns.name) as 'ColumnName', rtrim(systypes.name) as 'DataType', systypes.type as 'PhysicalType', syscolumns.length as 'FieldLength', systypes.xprec as 'Precision', systypes.xscale as 'Scale', * from sysobjects inner join syscolumns on syscolumns.id = sysobjects.id inner join systypes on systypes.xtype = syscolumns.xtype where sysobjects.name = '#str_TableName#'</cfquery>
+	<cfset str_SQL = "Update cfg_HomeTypes set ">
+	<cfloop collection="#form#" item="x">
+		<cfloop query="Query1">
+			<cfif ucase(COLUMNNAME) IS ucase(x)>
+				<cfif listFind("35,39,47", PHYSICALTYPE) EQ 0>
+					<cfset str_SQL = str_SQL & #ColumnName# & " = " & #trim(form[x])# & ", ">					
+				<cfelse>
+					<cfset str_SQL = str_SQL & #ColumnName# & " = '" & #trim(form[x])# & "', ">
+				</cfif>
+			</cfif>
+		</cfloop>
+	</cfloop>
+	<cfset str_SQL = left(str_SQL,len(str_SQL)-2)>
+	<cfset str_SQL = str_SQL & " Where ID = " & #ID#>
+	<cfoutput>#str_SQL#</cfoutput>
+</cfif>
+</body>
+</html>

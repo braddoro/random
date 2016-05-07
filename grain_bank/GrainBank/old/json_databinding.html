@@ -1,0 +1,41 @@
+<HTML>
+	<HEAD>
+		<SCRIPT>var isomorphicDir="../smartclientRuntime/isomorphic/";</SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Core.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/skins/SmartClient/load_skin.js></SCRIPT>
+	</HEAD>
+	<BODY>
+<SCRIPT>
+// http://www.smartclient.com/docs/8.0/isomorphic/system/reference/SmartClient_Reference.html#search=operationBindings
+
+isc.DataSource.create({
+    ID: "myDataSource",
+    operationBindings:[{operationType:"fetch", dataProtocol:"postParams"}],
+    dataURL: "json_gt.php?grainType",
+    dataFormat: "json",
+    fields:[
+        {name: "grainID", primaryKey: true},
+        {name: "grainType"},
+        {name: "grainUUID"}
+    ]
+});
+isc.ListGrid.create({
+    ID: "myListGrid",
+    left: 5, 
+    top: 5,
+    width: 800,
+    height: 300,
+    autoFetchData: true,
+    showAllRecords: true,
+    alternateRecordStyles: true,
+    dataSource: "myDataSource"
+});
+
+</SCRIPT>
+</BODY>
+</HTML>

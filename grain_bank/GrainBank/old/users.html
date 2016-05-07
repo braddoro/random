@@ -1,0 +1,49 @@
+<HTML>
+	<HEAD>
+		<SCRIPT>var isomorphicDir="../smartclientRuntime/isomorphic/";</SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Core.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Foundation.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Containers.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Grids.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_Forms.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/system/modules/ISC_DataBinding.js></SCRIPT>
+		<SCRIPT SRC=../smartclientRuntime/isomorphic/skins/SmartClient/load_skin.js></SCRIPT>
+	</HEAD>
+	<BODY>
+<SCRIPT>
+// http://www.smartclient.com/docs/8.0/isomorphic/system/reference/SmartClient_Reference.html#search=operationBindings
+//userID, userUUID, userName, emailAddress, active, addedDate
+isc.DataSource.create({
+    ID: "myDataSource",
+    //operationBindings:[{operationType:"fetch", dataProtocol:"postParams"}],
+    dataURL: "users.php?users",
+    dataFormat: "json",
+    fields:[
+    
+        {name: "userID", primaryKey: true},
+        {name: "userUUID"},
+        {name: "userName"},
+        {name: "emailAddress"},
+        {name: "active"},
+        {name: "addedDate"}
+    ]
+});
+isc.ListGrid.create({
+    ID: "myListGrid",
+    left: 5, 
+    top: 5,
+    width: 800,
+    height: 300,
+    autoFetchData: true,
+    showAllRecords: true,
+    alternateRecordStyles: true,
+    dataSource: "myDataSource",
+    recordDoubleClick: function(viewer, record, recordNum, field, fieldNum, value, rawValue){
+        console.log(recordNum);
+        this.startEditing(recordNum, fieldNum);
+    }
+});
+
+</SCRIPT>
+</BODY>
+</HTML>

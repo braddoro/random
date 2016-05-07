@@ -1,0 +1,91 @@
+<HTML lang="en">
+<HEAD>
+<isomorphic:loadISC skin="EnterpriseBlue"/>
+<meta http-equiv="Content-Type" content="text/html"; charset="utf-8">
+<TITLE>EAS Test</TITLE>
+<SCRIPT>var isomorphicDir="smartclientRuntime/isomorphic/";</SCRIPT>
+<SCRIPT SRC="smartclientRuntime/isomorphic/system/modules/ISC_Core.js"></SCRIPT>
+<SCRIPT SRC="smartclientRuntime/isomorphic/system/modules/ISC_Foundation.js"></SCRIPT>
+<SCRIPT SRC="smartclientRuntime/isomorphic/system/modules/ISC_Containers.js"></SCRIPT>
+<SCRIPT SRC="smartclientRuntime/isomorphic/system/modules/ISC_Grids.js"></SCRIPT>
+<SCRIPT SRC="smartclientRuntime/isomorphic/system/modules/ISC_Forms.js"></SCRIPT>
+<SCRIPT SRC="smartclientRuntime/isomorphic/system/modules/ISC_DataBinding.js"></SCRIPT>
+<SCRIPT SRC="smartclientRuntime/isomorphic/system/modules/ISC_RichTextEditor.js"></SCRIPT>
+<SCRIPT SRC="smartclientRuntime/isomorphic/system/modules/ISC_PluginBridges.js"></SCRIPT>
+<SCRIPT SRC="smartclientRuntime/isomorphic/skins/EnterpriseBlue/load_skin.js"></SCRIPT>
+<LINK REL="StyleSheet" HREF="smartclientRuntime/isomorphic/skins/EnterpriseBlue/skin_styles.css" TYPE="text/css">
+</HEAD>
+<BODY>
+<SCRIPT>
+this.dataSourceDS = isc.DataSource.create({
+    dataFormat: "json",
+    dataProtocol: "postParams",
+    showPrompt: true,
+    dataURL: "sc_server.php?test.getData0",
+    fields: [
+        {name: "salutation",type: "text"},
+        {name: "firstname", type: "text"},
+        {name: "lastname",  type: "text"}
+    ],
+    transformResponse (dsResponse, dsRequest, data){
+console.log(dsResponse);
+console.log(data);
+
+        this.Super("transformResponse", [dsResponse, dsRequest, data]);
+        var createdDSResponse = {};
+        if(data) {
+            createdDSResponse = {
+                totalRows: data.totalRows,
+                startRow: data.startRow,
+                endRow: data.endRow,
+                clientContext: dsRequest.clientContext,
+                httpResponseCode: dsResponse.httpResponseCode,
+		internalClientContext: dsResponse.internalClientContext,
+                transactionNum: dsResponse.transactionNum,
+                status: data.status ? data.status : isc.RPCResponse.STATUS_SUCCESS,
+                errors: data.errors,
+                errorMessage: data.errorMessage,
+                data: data.data
+            };
+        }else{
+            if(!data && dsResponse){
+                dsResponse.status = isc.RPCResponse.STATUS_FAILURE;
+                if (dsResponse.httpResponseCode == 503) {
+                    dsResponse.errorMessage = 'Unable to process the request: NetworkError: 503 Service Unavailable';
+                }else{
+                    dsResponse.errorMessage = 'Unable to process the request';
+                }
+                createdDSResponse = dsResponse;
+            }
+        }
+
+        return createdDSResponse;
+    }
+});
+
+var ListGridFields = [
+    {name:"salutation", title:"Title"},
+    {name:"firstname",  title:"First Name"},
+    {name:"lastname",   title:"Last Name"}
+];
+
+this.myListGrid = isc.ListGrid.create({
+    parent: this,
+    ID: "myListGrid",
+    left: 50,
+    top: 50,
+    width: 300,
+    height: 150,
+    alternateRecordStyles: true,
+    dataSource: this.dataSourceDS,
+    fields: ListGridFields
+});
+
+isc.Button.create({title:"Hello", click: function(){
+    myListGrid.invalidateCache();
+    myListGrid.fetchData();
+    }
+});
+</SCRIPT>
+</BODY>
+</HTML>

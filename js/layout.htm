@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Layout</title>
+<!-- 
+B3B3B3
+E6E6E6
+F5F5F5
+CCCCCC
+BFBFBF
+F2F2DE 
+8787CF 
+-->
+<style type="text/css">
+.body {background-color:#F2F2F2;font-family:sans-serif;font-size:.75em;}
+.head {background-color:#F2F2F2;width:99.55%;text-align:left;font-weight:bold;padding-bottom:10px;}
+.mid1 {background-color:#F2F2F2;display:inline-block;width:20%;vertical-align:text-top;}
+.mid2 {background-color:#F2F2F2;display:inline-block;width:56%;vertical-align:text-top;padding-left:5px;padding-right:5px;}
+.mid3 {background-color:#F2F2F2;display:inline-block;width:20%;vertical-align:text-top;}
+.foot {background-color:#F2F2F2;width:99.55%;text-align:center;padding-top:10px;}
+.panel_con {border:1px solid #334433;}
+.panel_top {border-bottom:1px solid #334433;background-color:#3366AA;color:#DDFFFF;padding:2px;}
+.panel_bot {background-color:#AABBBB;padding:2px;display:block;}
+.panel_fil {background-color:#B3B3B3;padding:2px;display:block;height:50px;}
+.panel_typ {background-color:#AABBBB;padding:2px;display:block;height:10px;}
+</style>
+<script language="javascript" type="text/javascript">
+function js_collapse(s_container)
+	{
+	if (document.getElementById(s_container))
+		{
+		if (document.getElementById(s_container).style.display == "block" || document.getElementById(s_container).style.display == "table-row-group")
+			{
+			document.getElementById(s_container).style.display = "none";
+			document.getElementById(s_imageElement).title = "show detail";
+			}else{
+			var isWebKit = navigator.userAgent.indexOf("AppleWebKit") > -1;
+			if (isWebKit)
+				{
+				document.getElementById(s_container).style.display = "table-row-group";
+				}else{
+				document.getElementById(s_container).style.display = "block";
+				}
+			document.getElementById(s_imageElement).title = "hide detail";
+			}
+		}
+	}
+</script>
+</head>
+<!-- Donec ut tincidunt lorem. Integer ultricies diam eu est hendrerit eleifend. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam pretium facilisis metus sit amet facilisis. Nulla facilisi. Proin ante neque, euismod in imperdiet et, vehicula iaculis diam. Ut luctus ultrices pretium. Donec in nibh in eros molestie ornare a sed eros. Quisque accumsan sodales ligula, nec egestas leo tempus ac. -->
+<body class="body">
+<div id="div_head" class="head">Vestibulum ullamcorper metus vitae sapien eleifend ac tempus lorem volutpat.</div>
+<div id="mid">
+	<span id="div_mid1" class="mid1">
+
+	<div id="" name="" class="panel_con">
+		<div class="panel_top" onclick="js_collapse('p01');">Panel 3
+		<div class="panel_fil">item 1</div>
+		</div>
+		<div class="panel_bot" id="p01" name="p01">Maecenas pellentesque eros sed elit ornare ut fermentum ante condimentum.</div>
+		<div class="panel_type" id="p01t" name="p01t">Proin a lorem quam.</div>
+	</div>
+	<br/>
+	<div id="" name="" class="panel_con">
+		<div class="panel_top" onclick="js_collapse('p04');">Panel 1</div>
+		<div class="panel_bot" id="p04" name="p04">Proin a lorem quam, in eleifend tellus. Praesent ac lobortis felis. Phasellus arcu enim, blandit commodo convallis nec, placerat eu nisl.</div>
+	</div>
+	<br/>
+	<div id="" name="" class="panel_con">
+		<div class="panel_top" onclick="js_collapse('p06');">Panel 2</div>
+		<div class="panel_bot" id="p06" name="p06">Ut auctor vulputate consectetur. Curabitur elementum consectetur tortor vel elementum. Donec ullamcorper, urna id scelerisque tristique, ligula lectus vehicula purus, et laoreet sem diam eu nulla.</div>
+	</div>
+	<br/>
+	<div id="" name="" class="panel_con">
+		<div class="panel_top" onclick="js_collapse('p08');">Panel 3</div>
+		<div class="panel_bot" id="p08" name="p08">
+		&bull; Nullam vitae libero.<br/>
+		&bull; Quis velit aliquet feugiat.<br/>
+		&bull; Citae libero .<br/>
+		&bull; Velit aliquet feugiat.<br/>
+		&bull; Nullam vitae aliquet.<br/>
+		&bull; Libero aliquet.<br/>
+		</div>
+	</div>
+	<br/>
+	</span>
+	<span id="div_mid2" class="mid2">Proin a lorem quam, in eleifend tellus. Praesent ac lobortis felis. Phasellus arcu enim, blandit commodo convallis nec, placerat eu nisl. Suspendisse quis nulla tellus, laoreet facilisis orci. Cras interdum magna non sapien luctus malesuada. Vestibulum ullamcorper metus vitae sapien eleifend ac tempus lorem volutpat. Ut vitae nisl turpis. Proin nec orci orci. Etiam adipiscing laoreet dui vitae tempor. Nulla mattis egestas ullamcorper. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque metus erat, aliquam sed convallis ac, mollis ut quam. Maecenas quis nibh a odio consequat condimentum.<br/><br/>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas nisl enim, tristique ut suscipit vel, blandit sed orci. Mauris placerat molestie sem, ac pretium tellus pretium eu. Suspendisse ac ligula at nunc volutpat suscipit. Proin nisl tellus, consequat sit amet varius non, ullamcorper sed elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse risus purus, condimentum sed adipiscing quis, porttitor eget mauris. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque quis lorem odio, non auctor justo. Integer tincidunt purus non augue feugiat malesuada. Sed a neque vitae lacus lobortis sagittis quis at mauris. In sed cursus augue. Donec vitae nibh lectus. Nullam pretium arcu eget arcu tempor pulvinar gravida enim convallis. Curabitur suscipit metus sit amet massa malesuada quis eleifend libero condimentum. Vivamus libero lacus, varius ac dignissim eget, accumsan nec leo. Nulla vestibulum fermentum mattis. Nunc id tellus in orci hendrerit porta id imperdiet orci. Donec in metus ligula, eget interdum orci. Praesent eleifend elit sit amet lorem dapibus non vulputate arcu mattis. Vestibulum auctor feugiat urna, sed dapibus diam commodo nec.<br/><br/>Aliquam eu sem id lectus venenatis iaculis. Sed iaculis eros vitae dolor euismod pharetra. Praesent elit erat, vehicula at gravida eu, vestibulum et lectus. Duis mauris magna, tincidunt sed tincidunt at, iaculis vitae libero. Phasellus in erat ac neque dictum consequat. Proin mattis elit non nulla consequat eget pretium tellus sagittis. Sed quam eros, porta eu sagittis at, ultricies sit amet neque. Vivamus ullamcorper dignissim nulla, id tincidunt erat congue eu. Praesent ac diam dolor, in ultrices nunc. Pellentesque mi odio, euismod id varius laoreet, congue nec turpis. Sed interdum pellentesque est, ut scelerisque nunc hendrerit ac. Proin in sollicitudin tortor. Aenean ac nunc sodales sapien pretium tristique. Sed elit nunc, suscipit ac pharetra eu, fringilla vel lacus. Praesent dignissim, elit id adipiscing tincidunt, purus purus facilisis diam, non tempor diam dolor nec libero. Nunc venenatis pulvinar est at facilisis. Praesent consectetur vulputate ante, a fermentum sapien lacinia ac. Nullam iaculis nunc gravida ipsum auctor venenatis. Cras dictum est at urna venenatis eleifend sit amet eu nunc.</span>
+	<span id="div_mid3" class="mid3">
+	<div id="" name="" class="panel_con">
+		<div class="panel_top" onclick="js_collapse('p10');">item 1</div>
+		<div class="panel_bot" id="p10" name="p10">Nulla facilisi. Curabitur suscipit eleifend tellus, varius tempor leo vulputate vitae. Ut auctor vulputate consectetur. Curabitur elementum consectetur tortor vel elementum. Donec ullamcorper, urna id scelerisque tristique, ligula lectus vehicula purus, et laoreet sem diam eu nulla.</div>
+	</div>
+	<br/>
+	<div id="" name="" class="panel_con">
+		<div class="panel_top" onclick="js_collapse('p12');">item 2</div>
+		<div class="panel_bot" id="p12" name="p12">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+	</div>
+	
+	</span>
+</div>
+<div id="div_foot" class="foot">Proin a lorem quam, in eleifend tellus. Praesent ac lobortis felis. Phasellus arcu enim, blandit commodo convallis nec, placerat eu nisl.</div>
+</body>
+</html>

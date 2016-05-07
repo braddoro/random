@@ -1,0 +1,53 @@
+.mdiv-t {
+  font-family: arial, Sans-serif;
+  font-size: 1.1em;
+  font-weight: bold;
+  padding-left: .5em;
+  padding-right: .5em;
+  display: block;
+}
+.mdiv-l {
+  font-family: arial, Sans-serif;
+  font-size: 1.1em;
+  font-weight: bold;
+  padding-left: .5em;
+  padding-right: .5em;
+  width: 66%; 
+  display: inline-table;
+}
+.mdiv-r {
+  font-family: arial, Sans-serif;
+  font-size: 1.1em;
+  font-weight: bold;
+  padding-left: .5em;
+  padding-right: .5em;
+  display: inline-table;
+}
+.mdiv-b {
+  font-family: arial, Sans-serif;
+  font-size: 1.1em;
+  font-weight: bold;
+  padding-left: .5em;
+  padding-right: .5em;
+  display: block;
+  
+}
+.phead {
+	border: 1px solid black;
+	padding: 2px;
+	background-color: #7994B7;
+	color: white;
+	font-family: Arial sans-serif;
+	font-size: 1em;
+	font-weight: bold;
+}
+.pbody {
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+	padding: 2px;
+	background-color: #DDDDDD;
+	font-family: Arial sans-serif;
+	font-size: 1em;
+}
+.body {font-family:sans-serif;}

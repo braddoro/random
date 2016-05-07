@@ -1,0 +1,112 @@
+<style type="text/css">
+body {
+  display: block;
+  margin: .8em;
+  background-color: #F5F5F5;
+}
+table {
+  display: table;
+  border-collapse: separate;
+  border-spacing: .0em;
+  font-family: arial;
+  font-size: .9em;
+  background-color: #FFFFF0
+}
+tbody {
+  display: table-row-group;
+  vertical-align: middle;
+  border-color: inherit;
+  background-color: #FFFFF0
+}
+thead {
+  display: table-header-group;
+  vertical-align: middle;;
+  background-color: #DCDCDC;
+  text-align: left;
+}
+tfoot {
+  display: table-footer-group;
+  vertical-align: middle;
+  border-color: inherit;
+  background-color: #DCDCDC;
+  text-align: left;
+}
+th {
+  display: table-cell;
+  vertical-align: inherit;
+  font-weight: bold;
+  padding-right: 1em;
+}
+tr {
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+
+}
+.tr-odd {
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+  background-color: #FFFFD1;
+}
+.tr-eve {
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+  background-color: #D7C9B0;
+}
+td {
+  display: table-cell;
+  vertical-align: inherit;
+  padding-right: 1em;
+
+}
+tdl {
+  display: table-cell;
+  vertical-align: inherit;
+
+}
+.tdr {
+  display: table-cell;
+  vertical-align: inherit;
+  text-align: right;
+  padding-right: 1em;
+}
+span {
+  font-family: arial, Sans-serif;
+  font-size: 1.1em;
+  font-weight: bold;
+  background-color: #DCDCDC;
+  color: #000000;
+  padding-left: .5em;
+  padding-right: .5em;
+}
+.spanl {
+  font-family: arial, Sans-serif;
+  font-size: 1.1em;
+  font-weight: bold;
+  background-color: #DCDCDC;
+  color: #000000;
+  padding-left: .5em;
+  padding-right: .5em;
+  text-align: left;
+}
+div1 {
+  font-family: arial, Sans-serif;
+  font-size: 1.1em;
+  font-weight: bold;
+  background-color: #DCDCDC;
+  color: #000000;
+  padding-left: .5em;
+  padding-right: .5em;
+}
+div.form {
+  font-family: arial, Sans-serif;
+  font-size: .9em;
+  font-weight: normal;
+  background-color: #DCDCDC;
+  color: #000000;
+  padding: .5em;
+  width: 33%;
+}
+</style>

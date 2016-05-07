@@ -1,0 +1,32 @@
+<HTML>
+	<HEAD>
+        <SCRIPT>var isomorphicDir='./SmartClient_80_LGPL/smartclientRuntime/isomorphic/';</SCRIPT>
+        <SCRIPT SRC='./SmartClient_80_LGPL/smartclientRuntime/isomorphic//system/modules/ISC_Core.js'></SCRIPT>
+        <SCRIPT SRC='./SmartClient_80_LGPL/smartclientRuntime/isomorphic//system/modules/ISC_Foundation.js'></SCRIPT>
+        <SCRIPT SRC='./SmartClient_80_LGPL/smartclientRuntime/isomorphic//system/modules/ISC_Containers.js'></SCRIPT>
+        <SCRIPT SRC='./SmartClient_80_LGPL/smartclientRuntime/isomorphic//system/modules/ISC_Grids.js'></SCRIPT>
+        <SCRIPT SRC='./SmartClient_80_LGPL/smartclientRuntime/isomorphic//system/modules/ISC_Forms.js'></SCRIPT>
+        <SCRIPT SRC='./SmartClient_80_LGPL/smartclientRuntime/isomorphic//system/modules/ISC_DataBinding.js'></SCRIPT>
+        <SCRIPT SRC='./SmartClient_80_LGPL/smartclientRuntime/isomorphic//system/modules/ISC_RichTextEditor.js'></SCRIPT>
+        <SCRIPT SRC='./SmartClient_80_LGPL/smartclientRuntime/isomorphic//system/modules/ISC_PluginBridges.js'></SCRIPT>
+        <SCRIPT SRC='./SmartClient_80_LGPL/smartclientRuntime/isomorphic//skins/TreeFrog/load_skin.js'></SCRIPT>
+        <LINK REL='StyleSheet' HREF='css/TreeFrog.css' TYPE='text/css'>
+        <SCRIPT SRC='util.js'></SCRIPT>
+	</HEAD>
+	<BODY>
+<SCRIPT>
+this.userLG = isc.gbListGrid.create({
+    fields: [
+        {name: "NAME", title: "Name"},
+        {name: "EMAIL", title: "Email"},
+        {name: "ACTIVE", title: "Active"}
+    ]
+});
+this.toolStrip = isc.gbToolStrip.create({listGrid: this.userLG});
+this.Header = isc.gbLabel.create({contents: 'Test'});
+this.foo = isc.gbVLayout.create({members: [this.Header, this.toolStrip, this.userLG]});
+this.Header.contents = 'This is a test of the header.';
+console.log(this.Header.contents);
+</SCRIPT>
+</BODY>
+</HTML>

@@ -1,0 +1,3 @@
+#!/bin/sh
+/usr/bin/netscape http://us.php.net/$1
+
